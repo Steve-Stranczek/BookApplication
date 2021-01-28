@@ -1,9 +1,8 @@
 package com.company.BookApplication.DataLayer;
 import java.util.ArrayList;
-import java.util.List;
 import java.sql.*;
 
-public class BookRepository {
+public class BookRepository implements IBookRepository{
 
     private static final String url = System.getenv("mySqlBookDB");
     private static final String user = "root";
@@ -13,11 +12,14 @@ public class BookRepository {
     private static ResultSet rs;
 
 
-
     public ArrayList<Book> GetAllBooks(){
         ArrayList<Book> books = new ArrayList<Book>();
 
-        String query = "Select * from book";
+        String query =  "select * from book a " +
+                            "inner join author b " +
+                                "on a.authorId = b.authorId " +
+                            "inner join genre c " +
+                                "on a.genreId = c.genreId; ";
         try{
             this.con = DriverManager.getConnection(url,user,password);
 
@@ -31,8 +33,10 @@ public class BookRepository {
                 book.bookId = rs.getInt("bookId");
                 book.bookTitle = rs.getString("bookTitle");
                 book.genreId = rs.getInt("genreId");
+                book.genre = rs.getString("genre");
                 book.numPages = rs.getInt("numPages");
                 book.authorId = rs.getInt("authorId");
+                book.author = rs.getString("author");
                 books.add(book);
             }
 
@@ -47,5 +51,20 @@ public class BookRepository {
         }
 
         return books;
+    }
+
+
+    public void DeleteBoook() {
+
+    }
+
+
+    public void UpdateBook() {
+
+    }
+
+    
+    public void InertBook() {
+
     }
 }
