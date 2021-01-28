@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public interface IBookRepository {
      ArrayList<Book> GetAllBooks();
      ArrayList<Genre> GetAllGenres();
-     void DeleteBoook();
+     void DeleteBook();
      void UpdateBook();
-     void InertBook();
+     void InsertBook();
 }

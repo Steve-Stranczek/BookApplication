@@ -87,7 +87,7 @@ public class BookRepository implements IBookRepository{
     }
 
 
-    public void DeleteBoook() {
+    public void DeleteBook() {
 
     }
 
@@ -97,7 +97,7 @@ public class BookRepository implements IBookRepository{
     }
 
 
-    public void InertBook() {
+    public void InsertBook() {
 
     }
 }
