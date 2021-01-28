@@ -54,6 +54,39 @@ public class BookRepository implements IBookRepository{
     }
 
 
+    public ArrayList<Genre> GetAllGenres() {
+        ArrayList<Genre> genres = new ArrayList<Genre>();
+
+        String query =  "select * from genre";
+        try{
+            this.con = DriverManager.getConnection(url,user,password);
+
+            stmt = con.createStatement();
+
+            rs = stmt.executeQuery(query);
+
+            while (rs.next())
+            {
+                Genre genre = new Genre();
+                genre.genreId = rs.getInt("genreId");
+                genre.genre = rs.getString("genre");
+                genres.add(genre);
+            }
+
+        }
+        catch (SQLException sqlEx){
+            sqlEx.printStackTrace();
+        }
+        finally{
+            try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+            try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+            try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+        }
+
+        return genres;
+    }
+
+
     public void DeleteBoook() {
 
     }
@@ -63,7 +96,7 @@ public class BookRepository implements IBookRepository{
 
     }
 
-    
+
     public void InertBook() {
 
     }
