@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 
-public class BookRepository extends Repository {
+public class BookRepository {
 
     private static final String url = System.getenv("mySqlBookDB");
     private static final String user = "root";
@@ -19,7 +19,6 @@ public class BookRepository extends Repository {
 
         String query = "Select * from book";
         try{
-       //     Class.forName("com.mysql.jdbc.Driver");
             this.con = DriverManager.getConnection(url,user,password);
 
             stmt = con.createStatement();
