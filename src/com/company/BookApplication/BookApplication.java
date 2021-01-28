@@ -10,9 +10,9 @@ import java.util.List;
 public class BookApplication {
 
     public static void main(String[] args) throws SQLException {
-        BookRepository myBookRepository = new MySqlBookRepository();
+        BookRepository bookRepo = new MySqlBookRepository();
 
-        List<Book> books = myBookRepository.getAllBooks();
-        List<Genre> genres = myBookRepository.getAllGenres();
+        List<Book> books = bookRepo.getAllBooks();
+        List<Genre> genres = bookRepo.getAllGenres();
     }
 }
