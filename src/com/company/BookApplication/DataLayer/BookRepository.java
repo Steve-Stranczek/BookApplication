@@ -4,13 +4,15 @@ import java.util.List;
 import java.sql.*;
 
 public class BookRepository extends Repository {
+
     private static final String url = System.getenv("mySqlBookDB");
     private static final String user = "root";
     private static final String password = System.getenv("mySqlRootPassword");
-
     private static Connection con;
     private static Statement stmt;
     private static ResultSet rs;
+
+
 
     public ArrayList<Book> GetAllBooks(){
         ArrayList<Book> books = new ArrayList<Book>();
