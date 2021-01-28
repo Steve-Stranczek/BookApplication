@@ -1,4 +1,4 @@
-package com.compay.BookApplication.DataLayer;
+package com.company.BookApplication.DataLayer;
 
 public class Genre {
     public int genreId;
