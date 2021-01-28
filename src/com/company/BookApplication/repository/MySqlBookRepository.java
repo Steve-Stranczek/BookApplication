@@ -34,16 +34,7 @@ public class MySqlBookRepository implements BookRepository {
 
             while (rs.next())
             {
-                Book book = new Book();
-
-                book.id = rs.getInt("bookId");
-                book.title = rs.getString("bookTitle");
-                book.genre.id = rs.getInt("genreId");
-                book.genre.name = rs.getString("genre");
-                book.pages = rs.getInt("numPages");
-                book.author.id = rs.getInt("authorId");
-                book.author.name = rs.getString("author");
-                books.add(book);
+                books.add(getBook(rs));
             }
         }
         catch (SQLException sqlEx){
@@ -56,6 +47,20 @@ public class MySqlBookRepository implements BookRepository {
         return books;
     }
 
+    private Book getBook(ResultSet rs) throws SQLException {
+        Book book = new Book();
+
+        book.id = rs.getInt("bookId");
+        book.title = rs.getString("bookTitle");
+        book.genre.id = rs.getInt("genreId");
+        book.genre.name = rs.getString("genre");
+        book.pages = rs.getInt("numPages");
+        book.author.id = rs.getInt("authorId");
+        book.author.name = rs.getString("author");
+
+        return book;
+    }
+
     @Override
     public List<Genre> getAllGenres() {
         ArrayList<Genre> genres = new ArrayList<>();
@@ -65,10 +70,7 @@ public class MySqlBookRepository implements BookRepository {
 
             while (rs.next())
             {
-                Genre genre = new Genre();
-                genre.id = rs.getInt("genreId");
-                genre.name = rs.getString("genre");
-                genres.add(genre);
+                genres.add(getGenre(rs));
             }
         }
         catch (SQLException e){
@@ -79,6 +81,14 @@ public class MySqlBookRepository implements BookRepository {
         }
 
         return genres;
+    }
+
+    private Genre getGenre(ResultSet rs) throws SQLException {
+        Genre genre = new Genre();
+        genre.id = rs.getInt("genreId");
+        genre.name = rs.getString("genre");
+
+        return genre;
     }
 
     @Override
