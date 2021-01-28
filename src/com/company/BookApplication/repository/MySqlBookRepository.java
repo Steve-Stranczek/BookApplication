@@ -21,7 +21,7 @@ public class MySqlBookRepository implements BookRepository {
     private static String getAllGenresQuery =  "select * from genre";
 
 
-    public MySqlBookRepository() throws SQLException {
+    public MySqlBookRepository() {
         driver = new MySqlDriver();
     }
 

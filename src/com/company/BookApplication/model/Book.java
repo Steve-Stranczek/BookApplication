@@ -7,4 +7,8 @@ public class Book {
     public Genre genre;
     public int pages;
 
+    public Book() {
+        author = new Author();
+        genre = new Genre();
+    }
 }
