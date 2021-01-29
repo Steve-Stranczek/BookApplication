@@ -1,7 +1,7 @@
 database:
   book:
     url:
-    username:
+    username: root
     password:
     minIdle: 2
     maxIdle: 45

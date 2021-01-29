@@ -5,6 +5,7 @@ import com.steve.BookApi.model.Book;
 import com.steve.BookApi.model.category.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -30,18 +31,12 @@ public class MySqlBookRepository implements BookRepository {
     public List<Book> getAllBooks() {
         ArrayList<Book> books = new ArrayList<>();
 
-        // TODO CHANGE ME TO GET BOOKS
-        ArrayList<Category> categories = new ArrayList<>();
-
-        SqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("id", 2939)
-                .addValue("id2", 2800);
+        SqlParameterSource namedParameters = new MapSqlParameterSource();
 
         List<Map<String, Object>> mysqlCategory = template.queryForList(getAllBooksQuery, namedParameters);
-        mysqlCategory.forEach(category -> categories.add(mapper.convertValue(category, Category.class)));
 
-        LOG.info(String.format("Obtained all books: count[%d]", categories.size()));
-        // TODO CHANGE ME TO GET BOOKS
+        mysqlCategory.forEach(book -> books.add(mapper.convertValue(book, Book.class)));
+        LOG.info(String.format("Obtained all books: count[%d]", books.size()));
 
         return books;
     }
