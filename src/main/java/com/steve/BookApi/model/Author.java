@@ -8,6 +8,6 @@ import lombok.Data;
 public class Author {
     @JsonProperty(SqlConstants.authorId)
     public int id;
-    @JsonProperty(SqlConstants.author)
+    @JsonProperty(SqlConstants.authorName)
     public String name;
 }

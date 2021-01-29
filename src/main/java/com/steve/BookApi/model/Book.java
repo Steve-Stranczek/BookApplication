@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Book {
     @JsonProperty(SqlConstants.bookId)
     public int id;
-    @JsonProperty(SqlConstants.book)
+    @JsonProperty(SqlConstants.bookTitle)
     public String title;
     @JsonUnwrapped
     public Author author;

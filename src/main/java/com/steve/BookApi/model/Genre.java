@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class Genre {
     @JsonProperty(SqlConstants.genreId)
-    public int genreId;
-    @JsonProperty(SqlConstants.genre)
+    public int id;
+    @JsonProperty(SqlConstants.genreName)
     public String name;
 }
