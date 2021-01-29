@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.steve.BookApi.model.Book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.steve.BookApi.repository.SqlConstants.getAllBooksQuery;
+import static com.steve.BookApi.repository.SqlConstants.*;
 
 public class MySqlBookRepository implements BookRepository {
     Logger LOG = LoggerFactory.getLogger(MySqlBookRepository.class);
@@ -41,7 +40,13 @@ public class MySqlBookRepository implements BookRepository {
     }
 
     @Override
-    public void deleteBook() {
+    public long deleteBook(long id) {
+        boolean isDeleted = false;
+        SqlParameterSource namedParameters = new MapSqlParameterSource()
+                .addValue("id", id);
 
+        var numRowsAffected = template.update(deleteBookById,namedParameters);
+
+        return numRowsAffected;
     }
 }

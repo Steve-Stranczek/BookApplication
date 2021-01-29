@@ -5,6 +5,7 @@ import com.steve.BookApi.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,6 +34,18 @@ public class BookController extends LoggingController {
         );
     }
 
-    //@DeleteMapping("v1/deleteBook/{id}")
-  //  public ResponseEntity<Book> deleteBook(@PathVariable(value="id") long )
+    @DeleteMapping("v1/deleteBook/{id}")
+    public ResponseEntity<Long> deleteBook(@PathVariable(value="id") long id)
+    {
+        long numRowsAffected = bookService.deleteBook(id);
+
+        if(numRowsAffected == 0)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        else
+        {
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        }
+    }
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface BookRepository {
     List<Book> getAllBooks();
-    void deleteBook();
+    long deleteBook(long id);
 }
