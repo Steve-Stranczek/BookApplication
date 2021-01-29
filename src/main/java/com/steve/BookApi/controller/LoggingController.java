@@ -11,11 +11,11 @@ import java.util.function.Supplier;
 public class LoggingController {
     Logger LOG = LoggerFactory.getLogger(LoggingController.class);
 
-    ResponseEntity<Object> timeOperation(Supplier<ResponseEntity<Object>> f) {
+    <T> ResponseEntity<T> timeOperation(Supplier<ResponseEntity<T>> f) {
         long startTime = System.currentTimeMillis();
         setCorrelationId();
 
-        ResponseEntity<Object> response = f.get();
+        ResponseEntity<T> response = f.get();
         LOG.info(String.format("Time to complete operation: time[%d] ms", System.currentTimeMillis() - startTime));
         return response;
     }
