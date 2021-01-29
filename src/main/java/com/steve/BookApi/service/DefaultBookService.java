@@ -17,4 +17,9 @@ public class DefaultBookService implements BookService {
     public List<Book> getAllBooks() {
         return repo.getAllBooks();
     }
+
+    @Override
+    public void deleteBook() {
+        repo.deleteBook();
+    }
 }

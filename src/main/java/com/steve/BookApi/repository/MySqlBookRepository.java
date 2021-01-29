@@ -39,4 +39,9 @@ public class MySqlBookRepository implements BookRepository {
 
         return books;
     }
+
+    @Override
+    public void deleteBook() {
+
+    }
 }

@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -30,4 +32,7 @@ public class BookController extends LoggingController {
                 }
         );
     }
+
+    //@DeleteMapping("v1/deleteBook/{id}")
+  //  public ResponseEntity<Book> deleteBook(@PathVariable(value="id") long )
 }
