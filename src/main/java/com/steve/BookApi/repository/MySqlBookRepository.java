@@ -76,6 +76,11 @@ public class MySqlBookRepository implements BookRepository {
         return lookupBookByTitleandAuthorId(bookToInsert.title, bookToInsert.author.id);
     }
 
+    @Override
+    public long updateBook(Book bookToUpdate) {
+        return 0;
+    }
+
     private int lookupAuthor(String name)
     {
         SqlParameterSource namedParameters = new MapSqlParameterSource()
@@ -113,5 +118,34 @@ public class MySqlBookRepository implements BookRepository {
         {
             return 0;
         }
+    }
+
+    private String buildUpdateQuery(Book bookToBeUpdated)
+    {
+        String query = "UPDATE book SET ";
+        if(bookToBeUpdated.title != null)
+        {
+            query += "bookTitle = " + bookToBeUpdated.title;
+        }
+
+        if(bookToBeUpdated.pages != 0)
+        {
+            query += "numPages = " + bookToBeUpdated.pages;
+        }
+
+        if(bookToBeUpdated.author.id != 0)
+        {
+            query += "authorId = " + bookToBeUpdated.author.id;
+        }
+
+        if(bookToBeUpdated.genre.id != 0)
+        {
+            query += "genreId = " + bookToBeUpdated.genre.id;
+        }
+
+        query += "WHERE bookId = " + bookToBeUpdated.id;
+
+        return query;
+
     }
 }

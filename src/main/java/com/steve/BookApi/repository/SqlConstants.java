@@ -34,6 +34,7 @@ public class SqlConstants {
             bookTitle, pages, authorId, genreId
     );
 
+
     public static final String getAuthorIdByName = String.format(
             "SELECT %s FROM author WHERE author = (:authorName)",
             authorId

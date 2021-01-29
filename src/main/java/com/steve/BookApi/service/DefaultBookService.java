@@ -27,4 +27,11 @@ public class DefaultBookService implements BookService {
     public long insertBook(Book bookToInsert) {
         return repo.insertBook(bookToInsert);
     }
+
+    @Override
+    public long updateBook(Book bookToUpdate) {
+        return repo.updateBook(bookToUpdate);
+    }
+
+
 }

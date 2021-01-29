@@ -34,12 +34,22 @@ public class BookController extends LoggingController {
     }
 
     @PostMapping("v1/book")
-    ResponseEntity<Long> insertBook(@Validated @RequestBody Book newBook)
+    ResponseEntity<Long> insertBook(@Validated @RequestBody Book bookToInsert)
     {
         return timeOperation(() -> {
                 LOG.info("Received request: request[v1/book]");
-                return ResponseEntity.ok().body(bookService.insertBook(newBook));
+                return ResponseEntity.ok().body(bookService.insertBook(bookToInsert));
             }
+        );
+    }
+
+    @PutMapping("v1/book/{id}")
+    ResponseEntity<Long> updateBook(@Validated @RequestBody Book bookToUpdate)
+    {
+        return timeOperation(() -> {
+                    LOG.info("Received request: request[v1/book]");
+                    return ResponseEntity.ok().body(bookService.updateBook(bookToUpdate));
+                }
         );
     }
 
