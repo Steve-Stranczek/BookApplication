@@ -1,0 +1,23 @@
+database:
+  book:
+    url: jdbc:mysql://mysqloct1t.peapod.com:3306/catalog_prod
+    username: dynadm
+    password: gr33n;c@r
+    minIdle: 2
+    maxIdle: 45
+    maxActive: 45
+    initialSize: 2
+    maxWaitMillis: 8000
+    validationQuery: select 1
+
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+  output:
+    ansi:
+      enabled: always
+
+logging:
+  pattern:
+    file: "%clr(%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr([%X{id}]){blue} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+    console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%thread]){faint} %clr(%logger{39}){cyan} %clr([%X{id}]){blue} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
