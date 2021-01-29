@@ -10,7 +10,7 @@ public class SqlConstants {
     public static final String authorId = "authorId";
 
     public static final String getAllBooksQuery = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s, %s from book a " +
+            "SELECT a.%s, a.%s, a.%s, c.%s, c.%s, b.%s, b.%s from book a " +
             "INNER JOIN author b ON a.authorId = b.authorId " +
             "INNER JOIN genre c ON a.genreId = c.genreId ",
             bookId, bookTitle, pages, genreName, genreId, authorName, authorId

@@ -2,7 +2,6 @@ package com.steve.BookApi.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.steve.BookApi.model.Book;
-import com.steve.BookApi.model.category.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
