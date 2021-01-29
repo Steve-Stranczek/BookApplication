@@ -22,4 +22,9 @@ public class DefaultBookService implements BookService {
     public long deleteBook(long id) {
         return repo.deleteBook(id);
     }
+
+    @Override
+    public long insertBook(Book bookToInsert) {
+        return repo.insertBook(bookToInsert);
+    }
 }

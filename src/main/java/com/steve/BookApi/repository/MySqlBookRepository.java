@@ -49,4 +49,11 @@ public class MySqlBookRepository implements BookRepository {
 
         return numRowsAffected;
     }
+
+    @Override
+    public long insertBook(Book bookToInsert) {
+        
+
+        return 0;
+    }
 }

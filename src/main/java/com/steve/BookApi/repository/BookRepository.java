@@ -7,4 +7,5 @@ import java.util.List;
 public interface BookRepository {
     List<Book> getAllBooks();
     long deleteBook(long id);
+    long insertBook(Book bookToInsert);
 }

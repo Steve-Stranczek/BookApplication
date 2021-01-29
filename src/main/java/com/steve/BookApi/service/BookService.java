@@ -7,5 +7,5 @@ import java.util.List;
 public interface BookService {
     List<Book> getAllBooks();
     long deleteBook(long id);
-
+    long insertBook(Book bookToInsert);
 }

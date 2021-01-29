@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +32,17 @@ public class BookController extends LoggingController {
         );
     }
 
+    @PostMapping("v1/book")
+    ResponseEntity<Long> insertBook(@RequestBody Book newBook)
+    {
+        return timeOperation(() -> {
+                LOG.info("Received request: request[v1/book]");
+                return ResponseEntity.ok().body(bookService.insertBook(newBook));
+            }
+        );
+    }
+
+
     @DeleteMapping("v1/deleteBook/{id}")
     public ResponseEntity<Long> deleteBook(@PathVariable(value="id") long id)
     {
@@ -48,4 +57,6 @@ public class BookController extends LoggingController {
             return new ResponseEntity<>(id, HttpStatus.OK);
         }
     }
+
+
 }
