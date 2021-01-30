@@ -44,11 +44,19 @@ public class BookController extends LoggingController {
     }
 
     @PutMapping("v1/book/{id}")
-    ResponseEntity<Long> updateBook(@Validated @RequestBody Book bookToUpdate)
+    ResponseEntity<Long> updateBook(@Validated @RequestBody Book bookToUpdate, @PathVariable(value="id") int id)
     {
+        bookToUpdate.id=id;
         return timeOperation(() -> {
                     LOG.info("Received request: request[v1/book]");
-                    return ResponseEntity.ok().body(bookService.updateBook(bookToUpdate));
+                    long numRowsAffected = bookService.updateBook(bookToUpdate);
+                    if(numRowsAffected == 0)
+                    {
+                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                    }
+                    else {
+                        return new ResponseEntity<Long>(numRowsAffected, HttpStatus.OK);
+                    }
                 }
         );
     }

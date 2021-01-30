@@ -1,11 +1,9 @@
 package com.steve.BookApi.repository;
 
-import ch.qos.logback.core.db.dialect.HSQLDBDialect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.steve.BookApi.model.Book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.metadata.HsqlTableMetaDataProvider;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -77,8 +75,50 @@ public class MySqlBookRepository implements BookRepository {
     }
 
     @Override
+    @Transactional
     public long updateBook(Book bookToUpdate) {
-        return 0;
+
+        Book bookFromDb = lookupBook(bookToUpdate.id);
+
+        if(bookFromDb == null)
+        {
+            return 0;
+        }
+
+        bookToUpdate = trimDuplicatesFromBook(bookToUpdate, bookFromDb);
+
+        if (bookToUpdate.author.name != null)
+        {
+            bookToUpdate.author.id = lookupAuthor(bookToUpdate.author.name);
+            if(bookToUpdate.author.id == 0)
+            {
+               bookToUpdate.author.id = insertAuthor(bookToUpdate.author.name);
+            }
+        }
+
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource();
+
+        template.update(buildUpdateQuery(bookToUpdate), sqlParameterSource);
+
+        return bookToUpdate.id;
+    }
+
+    private Book lookupBook(int id)
+    {
+        SqlParameterSource namedParameters = new MapSqlParameterSource()
+                .addValue("id", id);
+        try {
+            var map = template.queryForMap(getBookById, namedParameters);
+
+            Book book = mapper.convertValue(map, Book.class);
+
+            return book;
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
+
     }
 
     private int lookupAuthor(String name)
@@ -120,32 +160,58 @@ public class MySqlBookRepository implements BookRepository {
         }
     }
 
-    private String buildUpdateQuery(Book bookToBeUpdated)
+    private String buildUpdateQuery(Book bookToUpdate)
     {
         String query = "UPDATE book SET ";
-        if(bookToBeUpdated.title != null)
+        if(bookToUpdate.title != null)
         {
-            query += "bookTitle = " + bookToBeUpdated.title;
+            query += " bookTitle = '" + bookToUpdate.title + "', ";
         }
 
-        if(bookToBeUpdated.pages != 0)
+        if(bookToUpdate.pages != 0)
         {
-            query += "numPages = " + bookToBeUpdated.pages;
+            query += " numPages = " + bookToUpdate.pages + ", ";
         }
 
-        if(bookToBeUpdated.author.id != 0)
+        if(bookToUpdate.author.id != 0)
         {
-            query += "authorId = " + bookToBeUpdated.author.id;
+            query += " authorId = " + bookToUpdate.author.id + ", ";
         }
 
-        if(bookToBeUpdated.genre.id != 0)
+        if(bookToUpdate.genre.id != 0)
         {
-            query += "genreId = " + bookToBeUpdated.genre.id;
+            query += " genreId = " + bookToUpdate.genre.id;
         }
 
-        query += "WHERE bookId = " + bookToBeUpdated.id;
+        if (query.endsWith(", "))
+        {
+            query = query.substring(0, query.length() - 2);
+        }
+
+        query += " WHERE bookId = " + bookToUpdate.id;
 
         return query;
+    }
 
+    private Book trimDuplicatesFromBook(Book bookToUpdate, Book bookFromDb)
+    {
+        if(bookToUpdate.title == bookFromDb.title)
+        {
+            bookToUpdate.title = null;
+        }
+        if(bookToUpdate.pages == bookFromDb.pages)
+        {
+            bookToUpdate.pages = 0;
+        }
+        if(bookToUpdate.genre.id == bookFromDb.genre.id)
+        {
+            bookToUpdate.genre.id = 0;
+        }
+        if(bookToUpdate.author.name == bookFromDb.author.name)
+        {
+            bookToUpdate.author.name = null;
+            bookToUpdate.author.id = 0;
+        }
+        return bookToUpdate;
     }
 }

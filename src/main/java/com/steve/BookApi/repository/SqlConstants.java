@@ -20,7 +20,7 @@ public class SqlConstants {
             "SELECT a.%s, a.%s, a.%s, c.%s, c.%s, b.%s, b.%s from book a " +
                     "INNER JOIN author b ON a.authorId = b.authorId " +
                     "INNER JOIN genre c ON a.genreId = c.genreId " +
-                    "WHERE bookId = ",
+                    "WHERE bookId = (:id)",
             bookId, bookTitle, pages, genreName, genreId, authorName, authorId
     );
 
