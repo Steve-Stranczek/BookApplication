@@ -2,9 +2,10 @@ package com.steve.BookApi.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.steve.BookApi.repository.BookRepository;
-import com.steve.BookApi.repository.MySqlBookRepository;
+import com.steve.BookApi.repository.IBookRepository;
+import com.steve.BookApi.repository.BookRepository;
 import com.steve.BookApi.service.BookService;
-import com.steve.BookApi.service.DefaultBookService;
+import com.steve.BookApi.service.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,16 +30,16 @@ public class ServiceConfig {
     }
 
     @Bean
-    BookRepository bookRepository() {
-        return new MySqlBookRepository(
+    IBookRepository bookRepository() {
+        return new BookRepository(
                 mapper,
                 mySqlBookTemplate
         );
     }
 
     @Bean
-    BookService bookService(BookRepository bookRepository) {
-        return new DefaultBookService(bookRepository);
+    IBookService bookService(IBookRepository bookRepository) {
+        return new BookService(bookRepository);
     }
 
 }

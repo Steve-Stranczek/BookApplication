@@ -1,7 +1,7 @@
 package com.steve.BookApi.controller;
 
 import com.steve.BookApi.model.Book;
-import com.steve.BookApi.service.BookService;
+import com.steve.BookApi.service.IBookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +17,10 @@ import java.util.List;
 public class BookController extends LoggingController {
     Logger LOG = LoggerFactory.getLogger(LoggingController.class);
 
-    private final BookService bookService;
+    private final IBookService bookService;
 
     @Autowired
-    BookController(BookService _bookService) {
+    BookController(IBookService _bookService) {
         bookService = _bookService;
     }
 
