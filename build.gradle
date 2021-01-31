@@ -22,10 +22,23 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.apache.tomcat:tomcat-jdbc:9.0.0.M21'
+
 	compileOnly 'org.projectlombok:lombok'
+
 	runtimeOnly 'mysql:mysql-connector-java'
+
 	annotationProcessor 'org.projectlombok:lombok'
+
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	def junitJupiterVersion = '5.4.2'
+	testCompile "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
+	testCompile "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion"
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
+	testCompile "org.testcontainers:testcontainers:1.15.1"
+	testCompile "org.testcontainers:junit-jupiter:1.15.1"
+	testCompile "org.testcontainers:mysql:1.15.1"
 }
 
 test {
