@@ -1,8 +1,8 @@
 database:
   book:
-    url:
+    url: ${mySqlBookDB}
     username: root
-    password:
+    password: ${mySqlRootPassword}
     minIdle: 2
     maxIdle: 45
     maxActive: 45

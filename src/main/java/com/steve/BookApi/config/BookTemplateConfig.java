@@ -24,10 +24,12 @@ public class BookTemplateConfig {
     @Bean
     DataSource mySqlBookDataSource() {
         DataSource dataSource = new DataSource();
-        dataSource.setUrl(System.getenv("mySqlBookDB"));
+     //   dataSource.setUrl(System.getenv("mySqlBookDB"));
+        dataSource.setUrl(props.getUrl());
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUsername(props.getUsername());
-        dataSource.setPassword(System.getenv("mySqlRootPassword"));
+       // dataSource.setPassword(System.getenv("mySqlRootPassword"));
+        dataSource.setPassword(props.getPassword());
         dataSource.setMaxActive(props.getMaxActive());
         dataSource.setMinIdle(props.getMinIdle());
         dataSource.setMaxIdle(props.getMaxIdle());
