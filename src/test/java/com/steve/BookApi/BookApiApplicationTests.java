@@ -121,6 +121,17 @@ class BookApiApplicationTests {
         Assert.assertEquals(0,bookInsertId);
     }
 
+    @Test
+    @Sql(value = "/init_mysql.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = "/tearDown.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    public void UpdateBookThatDoesntExistShouldBe0() {
+        Book book = getTestBook();
+        book.id = 1;
+
+        long updateId = bookService.updateBook(book);
+        Assert.assertEquals(0,updateId);
+    }
+
     
 
     private Book getTestBook()
