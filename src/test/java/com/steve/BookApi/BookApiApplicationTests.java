@@ -83,15 +83,7 @@ class BookApiApplicationTests {
     @Sql(value = "/init_mysql.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = "/tearDown.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void insertOneBookShouldBe1ForFirstBookId(){
-        Book book = new Book();
-        Author author = new Author();
-        author.name = "Richard Powers";
-        Genre genre = new Genre();
-        genre.id = 1;
-        book.author = author;
-        book.genre = genre;
-        book.title = "The Overstory";
-        book.pages = 502;
+        Book book = getTestBook();
 
         long bookId = bookService.insertBook(book);
         Assert.assertEquals(1, bookId);
@@ -111,6 +103,28 @@ class BookApiApplicationTests {
     @Sql(value = "/tearDown.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void DeleteBookAfterInsertingShouldBe1()
     {
+        Book book = getTestBook();
+
+        bookService.insertBook(book);
+        long deletedBookId = bookService.deleteBook(1);
+        Assert.assertEquals(1,deletedBookId);
+    }
+
+    @Test
+    @Sql(value = "/init_mysql.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = "/tearDown.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    public void InsertBookThatAlreadyExistsShouldBe0() {
+        Book book = getTestBook();
+
+        bookService.insertBook(book);
+        long bookInsertId = bookService.insertBook(book);
+        Assert.assertEquals(0,bookInsertId);
+    }
+
+    
+
+    private Book getTestBook()
+    {
         Book book = new Book();
         Author author = new Author();
         author.name = "Richard Powers";
@@ -121,11 +135,6 @@ class BookApiApplicationTests {
         book.title = "The Overstory";
         book.pages = 502;
 
-        bookService.insertBook(book);
-        long deletedBookId = bookService.deleteBook(1);
-        Assert.assertEquals(1,deletedBookId);
+        return book;
     }
-
-    
-
 }
