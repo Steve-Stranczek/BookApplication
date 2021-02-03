@@ -132,6 +132,20 @@ class BookApiApplicationTests {
         Assert.assertEquals(0,updateId);
     }
 
+
+    @Test
+    @Sql(value = "/init_mysql.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = "/tearDown.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    public void UpdateBookThatAlreadyExistsShouldBe1() {
+        Book book = getTestBook();
+
+        bookService.insertBook(book);
+        book.title = "Test Title";
+        book.id = 1;
+        long updateId = bookService.updateBook(book);
+        Assert.assertEquals(1,updateId);
+    }
+
     
 
     private Book getTestBook()
