@@ -104,7 +104,26 @@ class BookApiApplicationTests {
     {
         long bookId = bookService.deleteBook(1);
         Assert.assertEquals(0,0);
+    }
 
+    @Test
+    @Sql(value = "/init_mysql.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = "/tearDown.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    public void DeleteBookAfterInsertingShouldBe1()
+    {
+        Book book = new Book();
+        Author author = new Author();
+        author.name = "Richard Powers";
+        Genre genre = new Genre();
+        genre.id = 1;
+        book.author = author;
+        book.genre = genre;
+        book.title = "The Overstory";
+        book.pages = 502;
+
+        bookService.insertBook(book);
+        long deletedBookId = bookService.deleteBook(1);
+        Assert.assertEquals(1,deletedBookId);
     }
 
     

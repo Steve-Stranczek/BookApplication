@@ -57,7 +57,7 @@ public class BookRepository implements IBookRepository {
 
         book.author.id = lookupAuthor(book.author.name);
 
-        if(lookupBookByTitleandAuthorId(book.title, book.author.id) == 0)
+        if(lookupBookByTitleandAuthorId(book.title, book.author.id) != 0)
         {
             return 0;
         }
