@@ -34,25 +34,32 @@ public class BookController extends LoggingController {
     }
 
     @PostMapping("v1/book")
-    ResponseEntity<Long> insertBook(@Validated @RequestBody Book bookToInsert)
+    ResponseEntity<Long> insertBook(@Validated @RequestBody Book book)
     {
         return timeOperation(() -> {
                 LOG.info("Received request: request[v1/book]");
-                return ResponseEntity.ok().body(bookService.insertBook(bookToInsert));
+                long numRowsAffected = bookService.insertBook(book);
+            if(numRowsAffected == 0)
+            {
+                return new ResponseEntity<Long>(numRowsAffected,HttpStatus.ALREADY_REPORTED);
+            }
+            else {
+                return new ResponseEntity<Long>(numRowsAffected, HttpStatus.OK);
+            }
             }
         );
     }
 
     @PutMapping("v1/book/{id}")
-    ResponseEntity<Long> updateBook(@Validated @RequestBody Book bookToUpdate, @PathVariable(value="id") int id)
+    ResponseEntity<Long> updateBook(@Validated @RequestBody Book book, @PathVariable(value="id") int id)
     {
-        bookToUpdate.id=id;
+        book.id=id;
         return timeOperation(() -> {
                     LOG.info("Received request: request[v1/book]");
-                    long numRowsAffected = bookService.updateBook(bookToUpdate);
+                    long numRowsAffected = bookService.updateBook(book);
                     if(numRowsAffected == 0)
                     {
-                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                        return new ResponseEntity<Long>(numRowsAffected,HttpStatus.NOT_FOUND);
                     }
                     else {
                         return new ResponseEntity<Long>(numRowsAffected, HttpStatus.OK);

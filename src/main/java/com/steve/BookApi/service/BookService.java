@@ -24,13 +24,13 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public long insertBook(Book bookToInsert) {
-        return repo.insertBook(bookToInsert);
+    public long insertBook(Book book) {
+        return repo.insertBook(book);
     }
 
     @Override
-    public long updateBook(Book bookToUpdate) {
-        return repo.updateBook(bookToUpdate);
+    public long updateBook(Book book) {
+        return repo.updateBook(book);
     }
 
 

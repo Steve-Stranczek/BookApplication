@@ -53,54 +53,59 @@ public class BookRepository implements IBookRepository {
 
     @Override
     @Transactional
-    public long insertBook(Book bookToInsert) {
+    public long insertBook(Book book) {
 
-        bookToInsert.author.id = lookupAuthor(bookToInsert.author.name);
+        book.author.id = lookupAuthor(book.author.name);
 
-        if(bookToInsert.author.id == 0)
+        if(lookupBookByTitleandAuthorId(book.title, book.author.id) == 0)
         {
-            bookToInsert.author.id = insertAuthor(bookToInsert.author.name);
+            return 0;
+        }
+
+        if(book.author.id == 0)
+        {
+            book.author.id = insertAuthor(book.author.name);
         }
 
         SqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("authorId", bookToInsert.author.id)
-                .addValue("genreId", bookToInsert.genre.id)
-                .addValue("bookTitle", bookToInsert.title)
-                .addValue("pages", bookToInsert.pages);
+                .addValue("authorId", book.author.id)
+                .addValue("genreId", book.genre.id)
+                .addValue("bookTitle", book.title)
+                .addValue("pages", book.pages);
 
         template.update(insertBook,namedParameters);
 
 
-        return lookupBookByTitleandAuthorId(bookToInsert.title, bookToInsert.author.id);
+        return lookupBookByTitleandAuthorId(book.title, book.author.id);
     }
 
     @Override
     @Transactional
-    public long updateBook(Book bookToUpdate) {
+    public long updateBook(Book book) {
 
-        Book bookFromDb = lookupBook(bookToUpdate.id);
+        Book bookFromDb = lookupBook(book.id);
 
         if(bookFromDb == null)
         {
             return 0;
         }
 
-        bookToUpdate = trimDuplicatesFromBook(bookToUpdate, bookFromDb);
+        book = trimDuplicatesFromBook(book, bookFromDb);
 
-        if (bookToUpdate.author.name != null)
+        if (book.author.name != null)
         {
-            bookToUpdate.author.id = lookupAuthor(bookToUpdate.author.name);
-            if(bookToUpdate.author.id == 0)
+            book.author.id = lookupAuthor(book.author.name);
+            if(book.author.id == 0)
             {
-               bookToUpdate.author.id = insertAuthor(bookToUpdate.author.name);
+                book.author.id = insertAuthor(book.author.name);
             }
         }
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource();
 
-        template.update(buildUpdateQuery(bookToUpdate), sqlParameterSource);
+        template.update(buildUpdateQuery(book), sqlParameterSource);
 
-        return bookToUpdate.id;
+        return book.id;
     }
 
     private Book lookupBook(int id)
