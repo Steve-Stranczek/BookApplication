@@ -91,6 +91,7 @@ class BookApiApplicationTests {
 
     @Test
     @Sql(value = "/init_mysql.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = "/tearDown.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void deleteBookWhichDoesntExistShouldBe0()
     {
         long bookId = bookService.deleteBook(1);
@@ -143,6 +144,19 @@ class BookApiApplicationTests {
         book.id = 1;
         long updateId = bookService.updateBook(book);
         Assert.assertEquals(1,updateId);
+    }
+
+    @Test
+    @Sql(value = "/init_mysql.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = "/tearDown.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    public void GetBookWithAuthorWhoDoesntExistShouldBeNull() {
+        Book book = new Book();
+        book.author = new Author();
+        book.genre = new Genre();
+        book.author.name = "TEST";
+
+        Book retBook = bookService.getBook(book.author.name, book.title);
+        Assert.assertEquals(null, retBook);
     }
 
     
