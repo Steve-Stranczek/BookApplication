@@ -159,6 +159,19 @@ class BookApiApplicationTests {
         Assert.assertEquals(null, retBook);
     }
 
+    @Test
+    @Sql(value = "/init_mysql.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = "/tearDown.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    public void GetBookWithATitleThatDoesntExistShouldBeNull() {
+        Book book = new Book();
+        book.author = new Author();
+        book.genre = new Genre();
+        book.title = "TEST";
+
+        Book retBook = bookService.getBook(book.author.name, book.title);
+        Assert.assertEquals(null, retBook);
+    }
+
     
 
     private Book getTestBook()
