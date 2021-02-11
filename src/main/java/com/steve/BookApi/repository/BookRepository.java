@@ -41,6 +41,32 @@ public class BookRepository implements IBookRepository {
     }
 
     @Override
+    public Book getBook(String title, String author) {
+        int authorId = lookupAuthor(author);
+
+        if(authorId == 0)
+        {
+            return null;
+        }
+
+        SqlParameterSource namedParameters = new MapSqlParameterSource()
+                .addValue("bookTitle", title)
+                .addValue("authorId", authorId);
+
+        int bookId;
+
+        try {
+            bookId = template.queryForObject(getBookIdByTitleandAuthor, namedParameters, Integer.class);
+        }
+        catch (Exception e) {
+            return null;
+        }
+
+        return lookupBook(bookId);
+
+    }
+
+    @Override
     public long deleteBook(long id) {
         boolean isDeleted = false;
         SqlParameterSource namedParameters = new MapSqlParameterSource()

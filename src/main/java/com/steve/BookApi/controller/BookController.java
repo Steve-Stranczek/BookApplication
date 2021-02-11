@@ -33,6 +33,23 @@ public class BookController extends LoggingController {
         );
     }
 
+    @PostMapping("v1/books")
+    ResponseEntity<Book> getBook(@Validated @RequestBody Book book)
+    {
+        return timeOperation(() -> {
+                    LOG.info("Received request: request[v1/books]");
+                    Book retBook = bookService.getBook(book.title, book.author.name);
+                    if(retBook == null)
+                    {
+                        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+                    }
+                    else {
+                        return new ResponseEntity<Book>(retBook, HttpStatus.OK);
+                    }
+                }
+        );
+    }
+
     @PostMapping("v1/book")
     ResponseEntity<Long> insertBook(@Validated @RequestBody Book book)
     {

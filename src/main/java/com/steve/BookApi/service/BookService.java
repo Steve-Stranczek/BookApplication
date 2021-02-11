@@ -19,6 +19,11 @@ public class BookService implements IBookService {
     }
 
     @Override
+    public Book getBook(String title, String author) {
+        return repo.getBook(title, author);
+    }
+
+    @Override
     public long deleteBook(long id) {
         return repo.deleteBook(id);
     }
