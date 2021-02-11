@@ -155,7 +155,7 @@ class BookApiApplicationTests {
         book.genre = new Genre();
         book.author.name = "TEST";
 
-        Book retBook = bookService.getBook(book.author.name, book.title);
+        Book retBook = bookService.getBook(book.title, book.author.name);
         Assert.assertEquals(null, retBook);
     }
 
@@ -168,11 +168,28 @@ class BookApiApplicationTests {
         book.genre = new Genre();
         book.title = "TEST";
 
-        Book retBook = bookService.getBook(book.author.name, book.title);
+        Book retBook = bookService.getBook(book.title, book.author.name);
         Assert.assertEquals(null, retBook);
     }
 
-    
+    @Test
+    @Sql(value = "/init_mysql.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = "/tearDown.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    public void GetBookWithTitleAndAuthorWhichExistsShouldNotBeNull() {
+        Book book = new Book();
+        book.author = new Author();
+        book.genre = new Genre();
+        book.title = "The Overstory";
+        book.author.name = "Richard Powers";
+
+        Book insertBook = getTestBook();
+        bookService.insertBook(insertBook);
+
+        Book retBook = bookService.getBook(book.title, book.author.name);
+        Assert.assertNotEquals(null, retBook);
+    }
+
+
 
     private Book getTestBook()
     {
