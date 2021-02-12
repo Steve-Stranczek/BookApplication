@@ -2,7 +2,7 @@ database:
   book:
     url: ${mySqlBookDB}
     username: root
-    password: ${mySqlRootPassword}
+    password: password
     minIdle: 2
     maxIdle: 45
     maxActive: 45
