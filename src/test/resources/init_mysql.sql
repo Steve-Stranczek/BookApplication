@@ -21,7 +21,12 @@ CREATE TABLE `bookdb`.`genre` (
   PRIMARY KEY (`genreId`)
 );
 
-INSERT INTO bookdb.genre (genreId, genre)  VALUES  (1,'Post-Modern'),   (2,'Horror'),   (3, 'Fantasy');
+INSERT INTO genre (genreId, genre)
+              VALUES
+              (1,'Post-Modern'),
+              (2,'Horror'),
+              (3, 'Fantasy')
+;
 
 
 

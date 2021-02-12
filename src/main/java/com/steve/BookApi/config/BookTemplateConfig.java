@@ -38,6 +38,24 @@ public class BookTemplateConfig {
         return dataSource;
     }
 
+   /* @Bean
+    DataSource mySqlBookDataSource() {
+        DataSource dataSource = new DataSource();
+        dataSource.setUrl("jdbc:mysql://host.docker.internal:3306/bookdb");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUsername("root");
+        dataSource.setPassword("MyNewPass");
+        dataSource.setMaxActive(45);
+        dataSource.setMinIdle(2);
+        dataSource.setMaxIdle(45);
+        dataSource.setInitialSize(2);
+        dataSource.setTestOnBorrow(true);
+        dataSource.setTestWhileIdle(true);
+        dataSource.setMaxWait(8000);
+        dataSource.setValidationQuery("SELECT 1");
+        return dataSource;
+    }*/
+
     @Bean
     NamedParameterJdbcTemplate mySqlBookTemplate(DataSource mySqlBookDataSource) {
         return new NamedParameterJdbcTemplate(mySqlBookDataSource);

@@ -1,6 +1,6 @@
 database:
   book:
-    url: ${mySqlBookDB}
+    url: jdbc:mysql://host.docker.internal:3306/bookdb
     username: root
     password: password
     minIdle: 2
